@@ -118,3 +118,120 @@ if (backToTop) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
+
+const reviewCarousel = document.querySelector(".review-carousel");
+
+if (reviewCarousel) {
+  const reviewTrack = reviewCarousel.querySelector(".review-track");
+  const reviewSlides = Array.from(reviewCarousel.querySelectorAll(".review-slide"));
+  const reviewPrev = reviewCarousel.querySelector(".review-prev");
+  const reviewNext = reviewCarousel.querySelector(".review-next");
+  let reviewIndex = 0;
+  let reviewTouchStartX = 0;
+
+  function updateReviewSlides() {
+    const total = reviewSlides.length;
+
+    reviewSlides.forEach((slide, index) => {
+      slide.classList.remove("is-active", "is-prev-1", "is-prev-2", "is-next-1", "is-next-2");
+
+      if (total === 1) {
+        slide.classList.add("is-active");
+        return;
+      }
+
+      const offset = (index - reviewIndex + total) % total;
+
+      if (offset === 0) {
+        slide.classList.add("is-active");
+      } else if (offset === total - 1) {
+        slide.classList.add("is-prev-1");
+      } else if (offset === total - 2) {
+        slide.classList.add("is-prev-2");
+      } else if (offset === 1) {
+        slide.classList.add("is-next-1");
+      } else if (offset === 2) {
+        slide.classList.add("is-next-2");
+      }
+    });
+
+    if (reviewPrev) {
+      reviewPrev.disabled = total <= 1;
+    }
+
+    if (reviewNext) {
+      reviewNext.disabled = total <= 1;
+    }
+  }
+
+  function goToReviewSlide(index) {
+    if (!reviewSlides.length) return;
+
+    reviewIndex = (index + reviewSlides.length) % reviewSlides.length;
+    updateReviewSlides();
+  }
+
+  reviewSlides.forEach((slide, index) => {
+    slide.addEventListener("click", () => {
+      if (index !== reviewIndex) {
+        goToReviewSlide(index);
+        return;
+      }
+
+      const image = slide.querySelector("img");
+      if (!lightbox || !lightboxImage || !image) return;
+
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt || "Photo de la galerie";
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    });
+  });
+
+  if (reviewPrev) {
+    reviewPrev.addEventListener("click", () => {
+      goToReviewSlide(reviewIndex - 1);
+    });
+  }
+
+  if (reviewNext) {
+    reviewNext.addEventListener("click", () => {
+      goToReviewSlide(reviewIndex + 1);
+    });
+  }
+
+  if (reviewTrack) {
+    reviewTrack.addEventListener("touchstart", (event) => {
+      reviewTouchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+
+    reviewTrack.addEventListener("touchend", (event) => {
+      const deltaX = event.changedTouches[0].clientX - reviewTouchStartX;
+
+      if (Math.abs(deltaX) < 40) return;
+
+      if (deltaX > 0) {
+        goToReviewSlide(reviewIndex - 1);
+      } else {
+        goToReviewSlide(reviewIndex + 1);
+      }
+    }, { passive: true });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (!reviewCarousel.contains(document.activeElement)) return;
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goToReviewSlide(reviewIndex - 1);
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goToReviewSlide(reviewIndex + 1);
+    }
+  });
+
+  updateReviewSlides();
+}

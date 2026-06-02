@@ -150,7 +150,7 @@ input {
   min-height: 92vh;
   align-items: center;
   overflow: hidden;
-  background: url("assets/real-02.png") center/cover no-repeat;
+  background: url("assets/photo1.jpg") center/cover no-repeat;
   color: var(--color-white);
 }
 
@@ -482,6 +482,157 @@ h3 {
 
 .portfolio-item.hidden {
   display: none;
+}
+
+/* Galerie coverflow type "Review Photo". */
+.section-review {
+  background: linear-gradient(180deg, #d8b86d 0%, var(--color-gold) 42%, var(--color-gold-dark) 100%);
+  color: var(--color-black);
+  overflow: hidden;
+}
+
+.review-heading {
+  margin-bottom: 42px;
+  text-align: center;
+}
+
+.review-heading h2 {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-black);
+}
+
+.review-carousel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(8px, 2vw, 24px);
+}
+
+.review-viewport {
+  position: relative;
+  height: clamp(420px, 58vh, 620px);
+  overflow: hidden;
+}
+
+.review-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.review-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(210px, 24vw, 290px);
+  aspect-ratio: 3 / 4.2;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #1a1a1a;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.62);
+  transition:
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 420ms ease,
+    filter 420ms ease;
+  will-change: transform, opacity;
+}
+
+.review-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-label {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  background: #d62828;
+  color: var(--color-white);
+  padding: 7px 14px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.review-slide.is-active {
+  z-index: 5;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+  filter: none;
+}
+
+.review-slide.is-prev-1 {
+  z-index: 4;
+  opacity: 0.88;
+  pointer-events: auto;
+  transform: translate(calc(-50% - clamp(150px, 18vw, 230px)), -50%) scale(0.84);
+  filter: brightness(0.88);
+}
+
+.review-slide.is-next-1 {
+  z-index: 4;
+  opacity: 0.88;
+  pointer-events: auto;
+  transform: translate(calc(-50% + clamp(150px, 18vw, 230px)), -50%) scale(0.84);
+  filter: brightness(0.88);
+}
+
+.review-slide.is-prev-2 {
+  z-index: 3;
+  opacity: 0.55;
+  pointer-events: auto;
+  transform: translate(calc(-50% - clamp(250px, 30vw, 380px)), -50%) scale(0.72);
+  filter: brightness(0.72);
+}
+
+.review-slide.is-next-2 {
+  z-index: 3;
+  opacity: 0.55;
+  pointer-events: auto;
+  transform: translate(calc(-50% + clamp(250px, 30vw, 380px)), -50%) scale(0.72);
+  filter: brightness(0.72);
+}
+
+.review-nav {
+  display: grid;
+  width: clamp(42px, 5vw, 54px);
+  height: clamp(42px, 5vw, 54px);
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: rgba(13, 13, 13, 0.82);
+  cursor: pointer;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.review-nav:hover,
+.review-nav:focus {
+  color: var(--color-black);
+  transform: scale(1.08);
+}
+
+.review-nav:disabled {
+  opacity: 0.25;
+  cursor: default;
+  transform: none;
 }
 
 .section-split {
@@ -984,6 +1135,38 @@ h3 {
   .portfolio-item:hover img,
   .portfolio-item:focus img {
     transform: none;
+  }
+
+  .review-carousel {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .review-nav {
+    display: none;
+  }
+
+  .review-viewport {
+    height: clamp(380px, 62vh, 520px);
+  }
+
+  .review-slide {
+    width: clamp(190px, 58vw, 240px);
+    border-radius: 14px;
+  }
+
+  .review-slide.is-prev-1 {
+    transform: translate(calc(-50% - 118px), -50%) scale(0.82);
+  }
+
+  .review-slide.is-next-1 {
+    transform: translate(calc(-50% + 118px), -50%) scale(0.82);
+  }
+
+  .review-slide.is-prev-2,
+  .review-slide.is-next-2 {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .footer-layout {
