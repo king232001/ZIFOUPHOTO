@@ -150,7 +150,7 @@ input {
   min-height: 92vh;
   align-items: center;
   overflow: hidden;
-  background: url("assets/photo1.jpg") center/cover no-repeat;
+  background: url("assets/real-02.png") center/cover no-repeat;
   color: var(--color-white);
 }
 
@@ -924,7 +924,8 @@ h3 {
     padding: 2px 9px 12px;
     scroll-behavior: smooth;
     scroll-padding-left: 9px;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -955,7 +956,8 @@ h3 {
     padding: 2px 9px 12px;
     scroll-behavior: smooth;
     scroll-padding-left: 9px;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -966,6 +968,11 @@ h3 {
     min-width: 268px;
     scroll-snap-align: start;
     scroll-snap-stop: normal;
+  }
+
+  .portfolio-filters {
+    touch-action: pan-x;
+    scroll-snap-type: x proximity;
   }
 
   .reveal {
