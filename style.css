@@ -583,6 +583,11 @@ h3 {
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
+.whatsapp-float svg {
+  width: 26px;
+  height: 26px;
+}
+
 .whatsapp-float:hover,
 .whatsapp-float:focus {
   transform: translateY(-2px);
